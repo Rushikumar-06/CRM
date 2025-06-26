@@ -2,13 +2,14 @@
 import { useQuery } from '@tanstack/react-query';
 import Select from 'react-select';
 import { getFirebaseIdToken } from '@/lib/firebaseAuth';
+import { getServerUrl } from '../lib/serverUrl';
 
 export default function TagSelector({ value, onChange }) {
   const { data: tags = [] } = useQuery({
     queryKey: ['tags'],
     queryFn: async () => {
       const token = await getFirebaseIdToken();
-      const res = await fetch('http://localhost:5000/api/tags', {
+      const res = await fetch(`${getServerUrl()}/api/tags`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       return res.json();

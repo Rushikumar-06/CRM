@@ -8,6 +8,7 @@ import {
   onAuthStateChanged,
   signOut,
 } from 'firebase/auth';
+import { getServerUrl } from '../lib/serverUrl';
 
 const AuthContext = createContext();
 
@@ -18,7 +19,7 @@ export const AuthProvider = ({ children }) => {
   const fetchUserFromBackend = async (firebaseUser) => {
     try {
       const token = await firebaseUser.getIdToken();
-      const res = await fetch('http://localhost:5000/api/auth/me', {
+      const res = await fetch(`${getServerUrl()}/api/auth/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -48,7 +49,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (email, password, displayName) => {
     setLoading(true);
-    const res = await fetch('http://localhost:5000/api/auth/register', {
+    const res = await fetch(`${getServerUrl()}/api/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password, displayName }),
@@ -64,7 +65,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     setLoading(true);
-    const res = await fetch('http://localhost:5000/api/auth/login', {
+    const res = await fetch(`${getServerUrl()}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
@@ -85,7 +86,7 @@ export const AuthProvider = ({ children }) => {
       const result = await signInWithPopup(auth, googleProvider);
       const token = await result.user.getIdToken();
 
-      const res = await fetch('http://localhost:5000/api/auth/save-user', {
+      const res = await fetch(`${getServerUrl()}/api/auth/save-user`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

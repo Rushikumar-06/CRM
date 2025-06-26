@@ -14,6 +14,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { Label } from '@/components/ui/label';
 import { Skeleton } from '@/components/ui/skeleton';
+import { getServerUrl } from '@/lib/serverUrl';
 
 export default function TagsPage() {
   const [newTag, setNewTag] = useState('');
@@ -32,7 +33,7 @@ export default function TagsPage() {
     queryKey: ['tags'],
     queryFn: async () => {
       const token = await getFirebaseIdToken();
-      const res = await fetch('http://localhost:5000/api/tags', {
+      const res = await fetch(`${getServerUrl()}/api/tags`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -50,7 +51,7 @@ export default function TagsPage() {
     setLoading(true);
     try {
       const token = await getFirebaseIdToken();
-      const res = await fetch('http://localhost:5000/api/tags', {
+      const res = await fetch(`${getServerUrl()}/api/tags`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -77,7 +78,7 @@ export default function TagsPage() {
     setLoading(true);
     try {
       const token = await getFirebaseIdToken();
-      const res = await fetch(`http://localhost:5000/api/tags/${id}`, {
+      const res = await fetch(`${getServerUrl()}/api/tags/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -111,7 +112,7 @@ export default function TagsPage() {
     setLoading(true);
     try {
       const token = await getFirebaseIdToken();
-      const res = await fetch(`http://localhost:5000/api/tags/${editingTag._id}`, {
+      const res = await fetch(`${getServerUrl()}/api/tags/${editingTag._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

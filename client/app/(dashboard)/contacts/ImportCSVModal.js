@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -6,6 +5,7 @@ import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { useQueryClient } from '@tanstack/react-query';
 import { getFirebaseIdToken } from '@/lib/firebaseAuth';
+import { getServerUrl } from '@/lib/serverUrl';
 
 export default function ImportCSVModal({ onClose }) {
   const [file, setFile] = useState(null);
@@ -17,7 +17,7 @@ export default function ImportCSVModal({ onClose }) {
     const formData = new FormData();
     formData.append('file', file);
 
-    await fetch('http://localhost:5000/api/contacts/import', {
+    await fetch(`${getServerUrl()}/api/contacts/import`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,

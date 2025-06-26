@@ -8,6 +8,7 @@ import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
   LineChart, Line, PieChart, Pie, Cell, Legend, CartesianGrid
 } from 'recharts';
+import { getServerUrl } from '@/lib/serverUrl';
 
 const COLORS = ['#8884d8', '#82ca9d', '#ffc658', '#ff8042', '#00c49f'];
 
@@ -24,16 +25,16 @@ export default function DashboardPage() {
       try {
         const token = await getFirebaseIdToken();
         const fetchWithAuth = async (url) => {
-          const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+          const res = await fetch(url.replace('http://localhost:5000', getServerUrl()), { headers: { Authorization: `Bearer ${token}` } });
           if (!res.ok) throw new Error(`Failed to fetch ${url}`);
           return await res.json();
         };
 
         const [summaryRes, companyRes, timelineRes, tagRes] = await Promise.all([
-          fetchWithAuth('http://localhost:5000/api/dashboard/summary'),
-          fetchWithAuth('http://localhost:5000/api/dashboard/contacts-by-company'),
-          fetchWithAuth('http://localhost:5000/api/dashboard/activities-timeline'),
-          fetchWithAuth('http://localhost:5000/api/dashboard/tag-distribution'),
+          fetchWithAuth(`${getServerUrl()}/api/dashboard/summary`),
+          fetchWithAuth(`${getServerUrl()}/api/dashboard/contacts-by-company`),
+          fetchWithAuth(`${getServerUrl()}/api/dashboard/activities-timeline`),
+          fetchWithAuth(`${getServerUrl()}/api/dashboard/tag-distribution`),
         ]);
 
         setSummary(summaryRes);
