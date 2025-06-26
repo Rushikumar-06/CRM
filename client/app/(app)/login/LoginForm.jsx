@@ -6,9 +6,9 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Eye, EyeOff, Mail, Lock, LogIn } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
 
-export default function LoginPage() {
+export default function LoginForm() {
   const { login, loginWithGoogle, user, loading } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -65,7 +65,6 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         <div className="bg-white rounded-2xl shadow-xl p-8 space-y-6">
           <div className="text-center space-y-2">
-            
             <h1 className="text-3xl font-bold text-gray-900">Welcome back</h1>
             <p className="text-gray-600">Sign in to your account</p>
           </div>
